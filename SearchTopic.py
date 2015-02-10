@@ -16,12 +16,10 @@ def search_topic (topic = "") :
     try :
         response = urllib2.urlopen (req)
     except urllib2.HTTPError, e:
-        print 'The server couldn\'t fulfill the request.'  
-        print 'Error code: ', e.code
+        print 'The server couldn\'t fulfill the request.','Error code: ', e.code
         return topic_dic 
     except urllib2.URLError, e:
-        print 'We failed to reach a server.'  
-        print 'Reason: ', e.reason
+        print 'We failed to reach a server.', 'Reason: ', e.reason
         return topic_dic
     #outfile = open ('tmp.txt', 'w')
     html1 = response.read ()

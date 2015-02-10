@@ -12,7 +12,7 @@ import os
 from bs4 import BeautifulSoup
 
 
-def save_topic (topic = "doctor", url = "http://www.zhihu.com/topic/19565943/questions", outdir = "") :
+def save_topic (topic = "", url = "", outdir = "") :
     if not os.path.exists (outdir) :
         os.mkdir (outdir)
     outfilename = os.path.join (outdir, topic)
@@ -36,17 +36,17 @@ def save_topic (topic = "doctor", url = "http://www.zhihu.com/topic/19565943/que
     #maxpage = 1
     count_question = 0
     for i in range (1, maxpage+1) :
-        pageurl = "http://www.zhihu.com/topic/19565943/questions?page="+str (i)
+        pageurl = url + "?page=" +str (i)
         print "\r%s processing page %d of %d" % (topic, i, maxpage), 
         req = urllib2.Request(pageurl)  
         try:  
             response = urllib2.urlopen(req)  
         except urllib2.HTTPError, e:  
-            print 'The server couldn\'t fulfill the request.'  
-            print 'Error code: ', e.code  
+            print 'The server couldn\'t fulfill the request.', 'Error code: ', e.code, pageurl
+            continue
         except urllib2.URLError, e:  
-            print 'We failed to reach a server.'  
-            print 'Reason: ', e.reason  
+            print 'We failed to reach a server.', 'Reason: ', e.reason, pageurl  
+            continue
         page = response.read ()
         soup = BeautifulSoup (page)
         for title in soup.find_all ('a') :
