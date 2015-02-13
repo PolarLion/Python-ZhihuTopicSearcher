@@ -4,7 +4,6 @@
 
 
 import urllib2
-import bs4
 import re
 import time
 import datetime
