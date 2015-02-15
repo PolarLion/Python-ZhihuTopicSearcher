@@ -36,11 +36,13 @@ if __name__ == "__main__" :
         topic_dic = SearchTopic.search_topic (topic = e1.get ().encode ('utf-8'), followers = int (e4.get ()), questions = int (e3.get ()))
         if len (topic_dic) == 0 :
             tkMessageBox.showwarning("search", "found no topic")
+        if not os.path.exists (e2.get ().encode ('utf-8')) :
+            os.mkdir (e2.get ().encode ('utf-8'))
         for key in topic_dic :
-            print key
-	    apath = os.path.join (e2.get ().encode ('utf-8'), e1.get ().encode ('utf-8'))
+            #print key
+	    apath = os.path.join (e2.get (), e1.get ())
             SaveTopic.save_topic (key, topic_dic[key].url, apath)
-            print "finish topic %s" % key
+            #print "finish topic %s" % key
     Tkinter.Button (master, height = 3, width = 20, text=" search ", command=fun).pack ()
     master.mainloop() 
 

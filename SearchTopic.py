@@ -36,10 +36,11 @@ def search_topic (topic = "", followers = 0, questions = 0) :
     except urllib2.URLError, e:
         print 'We failed to reach a server.', 'Reason: ', e.reason
         return topic_dic
-    outfile = open ('tmp.txt', 'w')
     html1 = response.read ()
     soup = BeautifulSoup (html1) 
+    #outfile = open ('tmp.txt', 'w')
     #outfile.write (soup.prettify ().encode ('utf8'))
+    #outfile.close ()
     topic = ZhihuTopic ()
     for link in soup.find_all ('a') :
         cl =  link.get ('class')
@@ -54,5 +55,4 @@ def search_topic (topic = "", followers = 0, questions = 0) :
                 topic_dic [topic.name] = topic
                 print topic_dic [topic.name]
             topic = ZhihuTopic ()
-    outfile.close ()
     return topic_dic
