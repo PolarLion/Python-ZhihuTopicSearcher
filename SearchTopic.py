@@ -50,8 +50,9 @@ def search_topic (topic = "", followers = 0, questions = 0) :
             topic.questions = int (link.get_text ().split (' ')[0])
         if cl and cl[0] == "followers" :
             topic.followers = int (link.get_text ().split (' ')[0])
-            topic_dic [topic.name] = topic
-            print topic_dic [topic.name]
+            if topic.followers > followers and topic.questions > questions :
+                topic_dic [topic.name] = topic
+                print topic_dic [topic.name]
             topic = ZhihuTopic ()
     outfile.close ()
     return topic_dic
