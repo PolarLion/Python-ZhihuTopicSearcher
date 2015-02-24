@@ -10,8 +10,7 @@ import datetime
 import os
 from bs4 import BeautifulSoup
 
-
-def save_topic (topic = "", url = "", outdir = "") :
+def save_topic (log, topic = "", url = "", outdir = "") :
     if not os.path.exists (outdir) :
         os.mkdir (outdir)
     outfilename = os.path.join (outdir, topic)
@@ -36,15 +35,17 @@ def save_topic (topic = "", url = "", outdir = "") :
     count_question = 0
     for i in range (1, maxpage+1) :
         pageurl = url + "?page=" +str (i)
-        print "\r%s processing page %d of %d" % (topic, i, maxpage), 
+        print u"%s processing page %d of %d\r" % (topic, i, maxpage), 
         req = urllib2.Request(pageurl)  
         try:  
             response = urllib2.urlopen(req)  
         except urllib2.HTTPError, e:  
-            print 'The server couldn\'t fulfill the request.', 'Error code: ', e.code, pageurl
+            print u'The server couldn\'t fulfill the request.', 'Error code: ', e.code, pageurl
+            log.error (u'The server couldn\'t fulfill the request. Error code: %d , %s' % (e.code, pageurl))
             continue
         except urllib2.URLError, e:  
-            print 'We failed to reach a server.', 'Reason: ', e.reason, pageurl  
+            print u'We failed to reach a server.', 'Reason: ', e.reason, pageurl  
+	    log.error ('We failed to reach a server  Reason: %d , %s' % (e.reason, pageurl))
             continue
         page = response.read ()
         soup = BeautifulSoup (page)
@@ -69,6 +70,5 @@ def save_topic (topic = "", url = "", outdir = "") :
     print ""
     outfile.close ()
     outtext.close ()
-
 
 
